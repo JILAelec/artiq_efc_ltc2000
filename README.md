@@ -29,3 +29,25 @@ local folders to be loaded with the venv automatically.
     artiq_flash -f flash_storage_ext0_synth0_10to100.img storage start
     artiq_flash -t efc1v1 --srcbuild -d artiq_efc_100MHz/blank/
     artiq_flash -t efc1v1 -f flash_storage_blank.img storage start
+
+### Verify that misoc version used in python environemtn is the new one
+
+```
+from misoc.cores.duc import MCM 
+
+# Define the bit width of the input signal 
+width = 8 
+# Define the constants as a range object directly 
+constants = range(4) # This is now a range object, not a list 
+
+# Initialize the MCM object 
+mcm = MCM(width, constants) 
+print("Latency:", mcm.latency)
+```
+
+Running that code verifies that the MCM object has a latency associated with it which the stock misoc does not currently have
+
+Stock gives you
+AttributeError: 'MCM' object has no attribute 'latency'
+while custom version returns
+Latency: 1
