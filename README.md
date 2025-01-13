@@ -4,7 +4,7 @@ To develop ARTIQ, navigate to the ARTIQ folder and run the following command:
 
     nix develop
 
-Next, use the local copy of MiSoC by exporting the `PYTHONPATH`:
+Next, use the local copy of MiSoC, Migen and Artiq by exporting the `PYTHONPATH`:
 
     export PYTHONPATH="/home/artiq/artiq_and_co/migen:$PYTHONPATH"
     export PYTHONPATH="/home/artiq/artiq_and_co/misoc:$PYTHONPATH"
