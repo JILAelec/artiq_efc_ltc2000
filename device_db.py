@@ -158,15 +158,15 @@ device_db["shuttler0_led1"] = {
 }
 
 # LTC2000 driver
-device_db["ltc2000"] = {
-    "type": "local",
-    "module": "artiq.coredevice.ltc2000",
-    "class": "LTC2000",
-    "arguments": {
-        "channel": 0x040003,
-        "spi_device": "spi_ltc"
-    }
-}
+#device_db["ltc2000"] = {
+#    "type": "local",
+#    "module": "artiq.coredevice.ltc2000",
+#    "class": "LTC2000",
+#    "arguments": {
+#        "channel": 0x040003,
+#        "spi_device": "spi_ltc"
+#    }
+#}
 
 # SPI master for LTC2000
 device_db["spi_ltc"] = {
@@ -174,4 +174,25 @@ device_db["spi_ltc"] = {
     "module": "artiq.coredevice.spi2",
     "class": "SPIMaster",
     "arguments": {"channel": 0x040002}
+}
+
+device_db["ltc_dds0"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "DDS",
+    "arguments": {"channel": 0x040003},
+}
+
+device_db["ltc_trigger"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "Trigger",
+    "arguments": {"channel": 0x040007},
+}
+
+device_db["ltc_clear"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "Clear",
+    "arguments": {"channel": 0x040008},
 }
