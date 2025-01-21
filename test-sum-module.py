@@ -72,7 +72,7 @@ def test_bench():
             print("----------------------------------------")
             for i in range(len(sample_data)):
                 if i < len(sample_data)-3:  # Regular output
-                    print(f"{sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x} {outputs[i+3]:4x}")
+                    print(f"{sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x} {outputs[i+3] & 0xFFFF:04x}")
                 else:  # Last three samples don't have corresponding outputs yet
                     print(f"{sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x} {sample_data[i]:4x}    -")
     
