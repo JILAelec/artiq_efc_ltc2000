@@ -1,0 +1,9 @@
+ get binaries from artiq, upload and run
+ 2158  rm -rf build_ltc
+ 2159  make
+ 2160  artiq_flash -t efc1v1 --srcbuild -d build_ltc
+ 2161  artiq_run pdq_init_test.py 
+ 2162  artiq_run pdq_set_freq.py 
+ 
+ working on the summing and saturation module
+ 2177  python test-sum-module.py 
