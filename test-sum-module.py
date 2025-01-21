@@ -39,7 +39,7 @@ def test_bench():
     ]
 
     def tb_generator():
-        test_amplitudes = [0x4000, 0x8000]  # Test with 0.5 and 1.0 gain
+        test_amplitudes = [0x4000, 0x8000, 0xFFFF]  # Test with 0.25, 0.5 and 1.0 gain
         
         for amp in test_amplitudes:
             print(f"\nTesting with amplitude {amp:04x}")
