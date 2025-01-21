@@ -157,17 +157,6 @@ device_db["shuttler0_led1"] = {
     "arguments": {"channel": 0x040001}
 }
 
-# LTC2000 driver
-#device_db["ltc2000"] = {
-#    "type": "local",
-#    "module": "artiq.coredevice.ltc2000",
-#    "class": "LTC2000",
-#    "arguments": {
-#        "channel": 0x040003,
-#        "spi_device": "spi_ltc"
-#    }
-#}
-
 # SPI master for LTC2000
 device_db["spi_ltc"] = {
     "type": "local",
@@ -183,6 +172,27 @@ device_db["ltc_dds0"] = {
     "arguments": {"channel": 0x040003},
 }
 
+device_db["ltc_dds1"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "DDS",
+    "arguments": {"channel": 0x040004},
+}
+
+device_db["ltc_dds2"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "DDS",
+    "arguments": {"channel": 0x040005},
+}
+
+device_db["ltc_dds3"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "DDS",
+    "arguments": {"channel": 0x040006},
+}
+
 device_db["ltc_trigger"] = {
     "type": "local",
     "module": "artiq.coredevice.ltc2000",
@@ -196,3 +206,18 @@ device_db["ltc_clear"] = {
     "class": "Clear",
     "arguments": {"channel": 0x040008},
 }
+
+device_db["ltc_reset"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "Reset",
+    "arguments": {"channel": 0x040009},
+}
+
+device_db["ltc_gain"] = {
+    "type": "local",
+    "module": "artiq.coredevice.ltc2000",
+    "class": "Gain",
+    "arguments": {"channel": 0x040008},
+}
+

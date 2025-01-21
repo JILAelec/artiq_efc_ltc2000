@@ -17,7 +17,7 @@ class DAC_Init(EnvExperiment):
         self.core.reset()
         self.ttl0.output()
         delay(20000*us)
-        self.ltc_clear.clear(1)
+        self.ltc_clear.clear(0b1111)
         print("Performing software reset...")
         self.spi_write(0x01, 0x01)  # Write 1 to the reset bit
         delay(10*ms)  # Wait for reset to complete
@@ -83,8 +83,11 @@ class DAC_Init(EnvExperiment):
             (31, [0])       # Register 31
         ]
 
+        VERBOSE = True
         for addr, expected in register_expected_pairs:
             read_value = self.spi_read(addr)
+            if VERBOSE:
+                print("Register", addr, " - expected one of", expected, " - read", read_value)
             if read_value not in expected:
                 print("Warning: Register mismatch at address", addr)
                 print("Register", addr, " - expected one of", expected, " - read", read_value)
