@@ -1,51 +1,24 @@
 from migen import *
 from migen.fhdl import verilog
 
-# ~ class SumAndScale(Module):
-    # ~ def __init__(self):
-        # ~ self.inputs = [Signal((16, True)) for _ in range(4)]
-        # ~ self.amplitudes = [Signal((16, False)) for _ in range(4)]  # Unsigned
-        # ~ self.output = Signal((16, True))
-        
-        # ~ ###
-        # ~ products = [Signal((16, True)) for _ in range(4)]
-        # ~ for i in range(4):
-            # ~ mult = Signal((32, True))
-            # ~ self.sync += [
-                # ~ mult.eq(self.inputs[i] * self.amplitudes[i]),
-                # ~ products[i].eq(mult >> 16)
-            # ~ ]
-        
-        # ~ sum_all = Signal((18, True))
-        # ~ self.comb += sum_all.eq(products[0] + products[1] + products[2] + products[3])
-        
-        # ~ self.sync += [
-            # ~ If(sum_all > 32767,
-                # ~ self.output.eq(32767)
-            # ~ ).Elif(sum_all < -32768,
-                # ~ self.output.eq(-32768)
-            # ~ ).Else(
-                # ~ self.output.eq(sum_all)
-            # ~ )
-        # ~ ]
-
 class SumAndScale(Module):
     def __init__(self):
         self.inputs = [Signal((16, True)) for _ in range(4)]
-        self.amplitudes = [Signal((16, False)) for _ in range(4)]  # Unsigned
+        self.amplitudes = [Signal((16, False)) for _ in range(4)]
         self.output = Signal((16, True))
         
         ###
+        
         products = [Signal((32, True)) for _ in range(4)]
         for i in range(4):
             # First, multiply (preserving full 32-bit result)
             self.sync += products[i].eq(self.inputs[i] * self.amplitudes[i])
         
-        # Sum the full 32-bit products
-        sum_all = Signal((34, True))  # Slightly larger to avoid potential overflow
+        # Sum the full 32-bit results
+        sum_all = Signal((34, True))  # Extra bits to avoid potential overflow
         self.comb += sum_all.eq(products[0] + products[1] + products[2] + products[3])
         
-        # Then shift and saturate
+        # Finally, shift and saturate
         self.sync += [
             If(sum_all >> 16 > 32767,
                 self.output.eq(32767)
@@ -65,7 +38,7 @@ def test_bench():
         0x9127, 0xa57f, 0xc001, 0xdee0
     ]
     def tb_generator():
-        test_amplitudes = [0x2000, 0x4000, 0x8000, 0xFFFF]  # Test with 0.25, 0.5 and 1.0 gain
+        test_amplitudes = [0x2000, 0x4000, 0x8000, 0xFFFF]  # Test with 1/8, 1/4, 1/2 and ~1.0 gain
         
         DISPLAY_LATENCY = 2  # Parameterized display latency
         
@@ -74,13 +47,7 @@ def test_bench():
             for i in range(3):
                 yield dut.amplitudes[i].eq(0)
             yield dut.amplitudes[3].eq(amp)
-            
-            # ~ # Initialize pipeline
-            # ~ for i in range(4):
-                # ~ yield dut.inputs[i].eq(0)
-            # ~ yield
-            # ~ yield
-            
+
             # Process all samples and collect outputs
             outputs = []
             input_indices = []
