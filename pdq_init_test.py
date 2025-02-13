@@ -10,6 +10,7 @@ class DAC_Init(EnvExperiment):
         self.setattr_device("ttl0")
         self.setattr_device("spi_ltc")
         self.setattr_device("ltc_clear")
+        self.setattr_device("ltc_reset")
         self.spi_config = SPI_END
 
     @kernel
@@ -18,6 +19,7 @@ class DAC_Init(EnvExperiment):
         self.ttl0.output()
         delay(20000*us)
         self.ltc_clear.clear(0b1111)
+        self.ltc_reset.reset(1)
         print("Performing software reset...")
         self.spi_write(0x01, 0x01)  # Write 1 to the reset bit
         delay(10*ms)  # Wait for reset to complete
@@ -27,6 +29,8 @@ class DAC_Init(EnvExperiment):
         self.initialize()
         print("Verifying initialization...")
         self.verify_initialization()
+        self.ltc_reset.reset(0)
+        delay(20000*us)
         self.ltc_clear.clear(0)
 
     @kernel
